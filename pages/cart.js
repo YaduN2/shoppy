@@ -1,13 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
-import React, { useContext } from "react";
-import { XCircleIcon } from "@heroicons/react/outline";
-import Layout from "../components/Layout";
-import { Store } from "../utils/Store";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-import axios from "axios";
-import { toast } from "react-toastify";
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useContext } from 'react';
+import { XCircleIcon } from '@heroicons/react/outline';
+import Layout from '../components/Layout';
+import { Store } from '../utils/Store';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function CartScreen() {
   const router = useRouter();
@@ -16,16 +16,16 @@ function CartScreen() {
     cart: { cartItems },
   } = state;
   const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
   const updateCartHandler = async (item, qty) => {
     const quantity = Number(qty);
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      return toast.error("Sorry! Product out of Stock!");
+      return toast.error('Sorry. Product is out of stock');
     }
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
-    toast.success("Product updated in the cart!");
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+    toast.success('Product updated in the cart');
   };
   return (
     <Layout title="Shopping Cart">
@@ -98,7 +98,7 @@ function CartScreen() {
               </li>
               <li>
                 <button
-                  onClick={() => router.push("login?redirect=/shipping")}
+                  onClick={() => router.push('login?redirect=/shipping')}
                   className="primary-button w-full"
                 >
                   Check Out

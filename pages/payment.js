@@ -2,15 +2,17 @@ import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import CheckoutWizard from "../components/CheckoutWiz";
+import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 
 export default function PaymentScreen() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
   const { shippingAddress, paymentMethod } = cart;
+
   const router = useRouter();
 
   const submitHandler = (e) => {
@@ -29,7 +31,6 @@ export default function PaymentScreen() {
 
     router.push("/placeorder");
   };
-
   useEffect(() => {
     if (!shippingAddress.address) {
       return router.push("/shipping");
@@ -72,3 +73,5 @@ export default function PaymentScreen() {
     </Layout>
   );
 }
+
+PaymentScreen.auth = true;

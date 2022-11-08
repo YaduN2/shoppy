@@ -1,13 +1,10 @@
-import Cookies from "js-cookie";
-import { route } from "next/dist/server/router";
-import { Router, useRouter } from "next/router";
-import React from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import CheckoutWiz from "../components/CheckoutWiz";
-import Layout from "../components/Layout";
-import { Store } from "../utils/Store";
+import React, { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import Cookies from 'js-cookie';
+import CheckoutWizard from '../components/CheckoutWizard';
+import Layout from '../components/Layout';
+import { Store } from '../utils/Store';
+import { useRouter } from 'next/router';
 
 export default function ShippingScreen() {
   const {
@@ -15,7 +12,6 @@ export default function ShippingScreen() {
     register,
     formState: { errors },
     setValue,
-    getValues,
   } = useForm();
 
   const { state, dispatch } = useContext(Store);
@@ -24,31 +20,38 @@ export default function ShippingScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    setValue("fullName", shippingAddress.fullName);
-    setValue("address", shippingAddress.address);
-    setValue("city", shippingAddress.city);
-    setValue("pincode", shippingAddress.pincode);
-    setValue("country", shippingAddress.country);
+    setValue('fullName', shippingAddress.fullName);
+    setValue('address', shippingAddress.address);
+    setValue('city', shippingAddress.city);
+    setValue('postalCode', shippingAddress.postalCode);
+    setValue('country', shippingAddress.country);
   }, [setValue, shippingAddress]);
 
-  const submitHandler = ({ fullName, address, city, pincode, country }) => {
+  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
     dispatch({
-      type: "SAVE_SHIPPING_ADDRESS",
-      payload: { fullName, address, city, pincode, country },
+      type: 'SAVE_SHIPPING_ADDRESS',
+      payload: { fullName, address, city, postalCode, country },
     });
     Cookies.set(
-      "cart",
+      'cart',
       JSON.stringify({
         ...cart,
-        shippingAddress: { fullName, address, city, pincode, country },
+        shippingAddress: {
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+        },
       })
     );
-    router.push("/payment");
+
+    router.push('/payment');
   };
 
   return (
     <Layout title="Shipping Address">
-      <CheckoutWiz activeStep={1}></CheckoutWiz>
+      <CheckoutWizard activeStep={1} />
       <form
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
@@ -60,7 +63,9 @@ export default function ShippingScreen() {
             className="w-full"
             id="fullName"
             autoFocus
-            {...register("fullName", { required: "Please enter full name" })}
+            {...register('fullName', {
+              required: 'Please enter full name',
+            })}
           />
           {errors.fullName && (
             <div className="text-red-500">{errors.fullName.message}</div>
@@ -71,13 +76,9 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="address"
-            autoFocus
-            {...register("address", {
-              required: "Please enter address",
-              minLength: {
-                value: 3,
-                message: "Address is more than 2 chars long",
-              },
+            {...register('address', {
+              required: 'Please enter address',
+              minLength: { value: 3, message: 'Address is more than 2 chars' },
             })}
           />
           {errors.address && (
@@ -89,27 +90,25 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="city"
-            autoFocus
-            {...register("city", {
-              required: "Please enter city",
+            {...register('city', {
+              required: 'Please enter city',
             })}
           />
           {errors.city && (
-            <div className="text-red-500">{errors.city.message}</div>
+            <div className="text-red-500 ">{errors.city.message}</div>
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="pincode">Pincode</label>
+          <label htmlFor="postalCode">Postal Code</label>
           <input
             className="w-full"
-            id="pincode"
-            autoFocus
-            {...register("pincode", {
-              required: "Please enter pincode",
+            id="postalCode"
+            {...register('postalCode', {
+              required: 'Please enter postal code',
             })}
           />
-          {errors.pincode && (
-            <div className="text-red-500">{errors.pincode.message}</div>
+          {errors.postalCode && (
+            <div className="text-red-500 ">{errors.postalCode.message}</div>
           )}
         </div>
         <div className="mb-4">
@@ -117,13 +116,12 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="country"
-            autoFocus
-            {...register("country", {
-              required: "Please enter country",
+            {...register('country', {
+              required: 'Please enter country',
             })}
           />
           {errors.country && (
-            <div className="text-red-500">{errors.country.message}</div>
+            <div className="text-red-500 ">{errors.country.message}</div>
           )}
         </div>
         <div className="mb-4 flex justify-between">

@@ -1,16 +1,18 @@
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
-import { Store } from "../utils/Store";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { signOut, useSession } from "next-auth/react";
-import { Menu } from "@headlessui/react";
-import DropDownLink from "./DropDownLink";
 import Cookies from "js-cookie";
+import React, { useContext, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import { Menu } from "@headlessui/react";
+import "react-toastify/dist/ReactToastify.css";
+import { Store } from "../utils/Store";
+import DropdownLink from "./DropdownLink";
 
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
+
+  const siteName = "Shoppy";
 
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
@@ -19,7 +21,6 @@ export default function Layout({ title, children }) {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
 
-  const siteName = "Shoppy";
   const logoutClickHandler = () => {
     Cookies.remove("cart");
     dispatch({ type: "CART_RESET" });
@@ -32,7 +33,9 @@ export default function Layout({ title, children }) {
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ToastContainer position="bottom-center" limit={1}></ToastContainer>
+
+      <ToastContainer position="bottom-center" limit={1} />
+
       <div className="flex min-h-screen flex-col justify-between ">
         <header>
           <nav className="flex h-12 items-center px-4 justify-between shadow-md">
@@ -50,35 +53,46 @@ export default function Layout({ title, children }) {
                   )}
                 </a>
               </Link>
+
               {status === "loading" ? (
                 "Loading"
               ) : session?.user ? (
                 <Menu as="div" className="relative inline-block">
-                  <Menu.Button className="text-red-600">
+                  <Menu.Button className="text-blue-600">
                     {session.user.name}
                   </Menu.Button>
-                  <Menu.Items className="abosolute right-0 w-56 origin-top-right bg-white shadow-lg">
+                  <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white  shadow-lg ">
                     <Menu.Item>
-                      <DropDownLink className="dropdown-link" href="/profile">
+                      <DropdownLink className="dropdown-link" href="/profile">
                         Profile
-                      </DropDownLink>
+                      </DropdownLink>
                     </Menu.Item>
                     <Menu.Item>
-                      <DropDownLink
+                      <DropdownLink
                         className="dropdown-link"
                         href="/order-history"
                       >
                         Order History
-                      </DropDownLink>
+                      </DropdownLink>
                     </Menu.Item>
+                    {session.user.isAdmin && (
+                      <Menu.Item>
+                        <DropdownLink
+                          className="dropdown-link"
+                          href="/admin/dashboard"
+                        >
+                          Admin Dashboard
+                        </DropdownLink>
+                      </Menu.Item>
+                    )}
                     <Menu.Item>
-                      <DropDownLink
-                        onClick={logoutClickHandler}
+                      <a
                         className="dropdown-link"
-                        href="/#"
+                        href="#"
+                        onClick={logoutClickHandler}
                       >
                         Logout
-                      </DropDownLink>
+                      </a>
                     </Menu.Item>
                   </Menu.Items>
                 </Menu>
@@ -92,7 +106,7 @@ export default function Layout({ title, children }) {
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex h-10 justify-center items-center shadow-inner">
-          <p>{siteName} - DBMS project 2022</p>
+          <p>{siteName} - A DBMS Project</p>
         </footer>
       </div>
     </>

@@ -30,9 +30,4 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-.next/cache/webpack/client-development/4.pack
-.next
+.env
