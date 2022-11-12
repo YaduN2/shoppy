@@ -119,51 +119,16 @@ function OrderScreen() {
   //   deliveredAt,
   // } = order;
 
-  const {
-    shippingAddress,
-    orderItems,
-    total: itemsPrice,
-    time,
-    date,
-  } = order
-
-
+  const { shippingAddress, orderItems, total: itemsPrice } = order;
   const isPaid = false;
   const isDelivered = false;
 
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: itemsPrice },
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
+  const price = round2(itemsPrice);
+  const shippingPrice = order.total > 200 ? 0 : 15;
+  const taxPrice = round2(order.total * 0.15);
 
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        dispatch({ type: "PAY_REQUEST" });
-        const { data } = await axios.put(
-          `/api/orders/${order._id}/pay`,
-          details
-        );
-        dispatch({ type: "PAY_SUCCESS", payload: data });
-        toast.success("Order is paid successgully");
-      } catch (err) {
-        dispatch({ type: "PAY_FAIL", payload: getError(err) });
-        toast.error(getError(err));
-      }
-    });
-  }
-  function onError(err) {
-    toast.error(getError(err));
-  }
+  const totalPrice = Math.round((price + shippingPrice + taxPrice) * 100) / 100;
 
   async function deliverOrderHandler() {
     try {
@@ -245,7 +210,7 @@ function OrderScreen() {
                       <td className=" p-5 text-right">{item.quantity}</td>
                       <td className="p-5 text-right">${item.price}</td>
                       <td className="p-5 text-right">
-                        ${item.quantity * item.price}
+                        ₹{item.quantity * item.price}
                       </td>
                     </tr>
                   ))}
@@ -260,40 +225,35 @@ function OrderScreen() {
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Items</div>
-                    <div>${itemsPrice}</div>
+                    <div>₹{itemsPrice}</div>
                   </div>
                 </li>{" "}
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Tax</div>
-                    <div>taxPrice</div>
+                    <div>₹{taxPrice}</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Shipping</div>
-                    <div>ShippingPrice</div>
+                    <div>₹{shippingPrice}</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Total</div>
-                    <div>totalPrice</div>
+                    <div>₹{totalPrice}</div>
                   </div>
                 </li>
                 {!isPaid && (
                   <li>
                     {isPending ? (
-                      <div>Loading...</div>
+                      <div>
+                        Loading...<PayPalButtons></PayPalButtons>
+                      </div>
                     ) : (
                       <></>
-                      // <div className="w-full ">
-                      //   <PayPalButtons
-                      //     createOrder={createOrder}
-                      //     onApprove={onApprove}
-                      //     onError={onError}
-                      //   ></PayPalButtons>
-                      // </div>
                     )}
                     {loadingPay && <div>Loading...</div>}
                   </li>

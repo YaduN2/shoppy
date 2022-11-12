@@ -29,10 +29,6 @@ export default function LoginScreen() {
 
   const submitHandler = async ({ name, email, password }) => {
     try {
-      
-
-      
-
       await axios.post("/api/auth/signup", {
         name,
         email,
@@ -46,8 +42,6 @@ export default function LoginScreen() {
         password,
       });
 
-
-    
       if (result.error) {
         toast.error(result.error);
       }
@@ -61,20 +55,35 @@ export default function LoginScreen() {
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="mb-4 text-xl">Create Account</h1>
+        <h1 className="mb-4 text-2xl font-bold">Create Account</h1>
         <div className="mb-4">
-          <label htmlFor="name">Username</label>
+          <label htmlFor="name">First Name</label>
           <input
             type="text"
             className="w-full"
             id="name"
             autoFocus
             {...register("name", {
-              required: "Please enter username",
+              required: "Please enter your first name",
             })}
           />
           {errors.name && (
             <div className="text-red-500">{errors.name.message}</div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="lname">Last Name</label>
+          <input
+            type="text"
+            className="w-full"
+            id="lname"
+            autoFocus
+            {...register("lname", {
+              required: "Please enter your last name",
+            })}
+          />
+          {errors.lname && (
+            <div className="text-red-500">{errors.lname.message}</div>
           )}
         </div>
 
@@ -96,7 +105,69 @@ export default function LoginScreen() {
             <div className="text-red-500">{errors.email.message}</div>
           )}
         </div>
+        <div className="mb-4">
+          <label htmlFor="mobile">Mobile</label>
+          <input
+            type="text"
+            className="w-full"
+            id="mobile"
+            autoFocus
+            {...register("mobile", {
+              required: "Please enter mobile no",
+            })}
+          />
+          {errors.mobile && (
+            <div className="text-red-500">{errors.mobile.message}</div>
+          )}
+        </div>
 
+        <div className="mb-4">
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            className="w-full"
+            id="city"
+            autoFocus
+            {...register("city", {
+              required: "Please enter your city",
+            })}
+          />
+          {errors.city && (
+            <div className="text-red-500">{errors.city.message}</div>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="state">State</label>
+          <input
+            type="text"
+            className="w-full"
+            id="state"
+            autoFocus
+            {...register("state", {
+              required: "Please enter your state",
+            })}
+          />
+          {errors.state && (
+            <div className="text-red-500">{errors.state.message}</div>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="pincode">Pincode</label>
+          <input
+            type="text"
+            className="w-full"
+            id="pincode"
+            autoFocus
+            {...register("pincode", {
+              required: "Please enter your pincode",
+            })}
+          />
+          {errors.pincode && (
+            <div className="text-red-500">{errors.pincode.message}</div>
+          )}
+        </div>
         <div className="mb-4">
           <label htmlFor="password">Password</label>
           <input
@@ -144,8 +215,8 @@ export default function LoginScreen() {
           <button className="primary-button">Register</button>
         </div>
         <div className="mb-4 ">
-          Don&apos;t have an account? &nbsp;
-          <Link href={`/register?redirect=${redirect || "/"}`}>Register</Link>
+          Have have an account? &nbsp;
+          <Link href={`/login`}>Log In</Link>
         </div>
       </form>
     </Layout>

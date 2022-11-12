@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useReducer } from "react";
 import Layout from "../../components/Layout";
 import { getError } from "../../utils/error";
-
+// import { Bar } from "react-chartjs-2";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -71,7 +71,7 @@ function AdminDashboardScreen() {
     datasets: [
       {
         label: "Sales",
-        backgroundColor: "rgba(162, 222, 208, 1)",
+        backgroundColor: "pink",
         data: summary.salesData.map((x) => x.totalSales),
       },
     ],
@@ -108,7 +108,7 @@ function AdminDashboardScreen() {
             <div>
               <div className="grid grid-cols-1 md:grid-cols-4">
                 <div className="card m-5 p-5">
-                  <p className="text-3xl">${summary.ordersPrice} </p>
+                  <p className="text-3xl">₹{summary.ordersPrice} </p>
                   <p>Sales</p>
                   <Link href="/admin/orders">View sales</Link>
                 </div>

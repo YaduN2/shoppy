@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import Cookies from 'js-cookie';
-import CheckoutWizard from '../components/CheckoutWizard';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import { useRouter } from 'next/router';
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
+import CheckoutWizard from "../components/CheckoutWizard";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
 
 export default function ShippingScreen() {
   const {
@@ -20,20 +20,20 @@ export default function ShippingScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    setValue('fullName', shippingAddress.fullName);
-    setValue('address', shippingAddress.street);
-    setValue('city', shippingAddress.city);
-    setValue('postalCode', shippingAddress.pinCode);
-    setValue('country', shippingAddress.state);
+    setValue("fullName", shippingAddress.fullName);
+    setValue("address", shippingAddress.street);
+    setValue("city", shippingAddress.city);
+    setValue("postalCode", shippingAddress.pinCode);
+    setValue("country", shippingAddress.state);
   }, [setValue, shippingAddress]);
 
   const submitHandler = ({ fullName, street, city, pinCode, state }) => {
     dispatch({
-      type: 'SAVE_SHIPPING_ADDRESS',
+      type: "SAVE_SHIPPING_ADDRESS",
       payload: { fullName, street, city, pinCode, state },
     });
     Cookies.set(
-      'cart',
+      "cart",
       JSON.stringify({
         ...cart,
         shippingAddress: {
@@ -46,7 +46,7 @@ export default function ShippingScreen() {
       })
     );
 
-    router.push('/payment');
+    router.push("/payment");
   };
 
   return (
@@ -56,15 +56,15 @@ export default function ShippingScreen() {
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="mb-4 text-xl">Shipping Address</h1>
+        <h1 className="mb-4 text-xl checkoutWizHeading">Shipping Address</h1>
         <div className="mb-4">
           <label htmlFor="fullName">Full Name</label>
           <input
             className="w-full"
             id="fullName"
             autoFocus
-            {...register('fullName', {
-              required: 'Please enter full name',
+            {...register("fullName", {
+              required: "Please enter full name",
             })}
           />
           {errors.fullName && (
@@ -76,12 +76,12 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="street"
-            {...register('street', {
-              required: 'Please enter street',
+            {...register("street", {
+              required: "Please enter street",
               // minLength: { value: 3, message: 'Address is more than 2 chars' },
             })}
           />
-          {errors.street&& (
+          {errors.street && (
             <div className="text-red-500">{errors.street.message}</div>
           )}
         </div>
@@ -90,8 +90,8 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="city"
-            {...register('city', {
-              required: 'Please enter city',
+            {...register("city", {
+              required: "Please enter city",
             })}
           />
           {errors.city && (
@@ -103,8 +103,8 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="pinCode"
-            {...register('pinCode', {
-              required: 'Please enter PIN code',
+            {...register("pinCode", {
+              required: "Please enter PIN code",
             })}
           />
           {errors.pinCode && (
@@ -116,8 +116,8 @@ export default function ShippingScreen() {
           <input
             className="w-full"
             id="state"
-            {...register('state', {
-              required: 'Please enter state',
+            {...register("state", {
+              required: "Please enter state",
             })}
           />
           {errors.state && (

@@ -8,6 +8,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #c4fff9;
 }
 
 a {
@@ -20,6 +21,7 @@ a {
 
 .card {
   @apply mb-5  block   rounded-lg border border-gray-200  shadow-md;
+  background-color: white;
 }
 
 .primary-button {
@@ -49,4 +51,151 @@ textarea {
 
 .paypal {
   @apply fill-transparent;
+}
+
+.button-28 {
+  appearance: none;
+  background-color: white;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3b3b3b;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.button-28:disabled {
+  pointer-events: none;
+}
+
+.button-28:hover {
+  color: #fff;
+  background-color: rgb(50, 50, 146);
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-28:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+.icon_cart {
+  margin-right: 5px;
+}
+.icon_user {
+  margin-left: 5px;
+}
+
+.product_name {
+  font-size: xx-large;
+  color: #3b3b3b;
+  font-weight: 500;
+  text-align: center;
+}
+
+.category_name {
+  margin-top: 5px;
+  font-size: large;
+}
+.brand_name {
+  margin-top: 5px;
+  font-size: large;
+}
+
+.description_product {
+  margin-top: 5px;
+  font-size: large;
+  height: 100%;
+}
+
+.card_product_details {
+  @apply mb-5  block   rounded-lg border border-gray-200  shadow-md;
+  background-color: white;
+  padding: 5%;
+}
+
+.checkoutWizHeading {
+  font-size: x-large;
+  color: #3b3b3b;
+  font-weight: 500;
+}
+
+.sadbox {
+  width: 400px;
+  height: 400px;
+}
+
+.admin_yes {
+  border: solid black 2px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: rgb(47, 255, 50);
+}
+
+.admin_no {
+  border: solid black 2px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: rgb(255, 63, 63);
+}
+
+.one {
+  color: #000;
+}
+.one:hover {
+  color: #c4fff9;
+}
+.two {
+  color: #000;
+}
+.two:hover {
+  color: #c4fff9;
+}
+.thr {
+  color: #000;
+}
+.thr:hover {
+  color: #c4fff9;
+}
+.for {
+  color: #000;
+}
+.for:hover {
+  color: #c4fff9;
+}
+.fiv {
+  color: #000;
+}
+.fiv:hover {
+  color: #c4fff9;
+}
+.six {
+  color: #000;
+}
+.six:hover {
+  color: #c4fff9;
+}
+
+.transitionall {
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.logo {
+  font-size: x-large;
 }
