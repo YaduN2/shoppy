@@ -105,26 +105,38 @@ function OrderScreen() {
       loadPaypalScript();
     }
   }, [order, orderId, paypalDispatch, successDeliver, successPay]);
+  // const {
+  //   shippingAddress,
+  //   paymentMethod,
+  //   orderItems,
+  //   itemsPrice,
+  //   taxPrice,
+  //   shippingPrice,
+  //   totalPrice,
+  //   isPaid,
+  //   paidAt,
+  //   isDelivered,
+  //   deliveredAt,
+  // } = order;
+
   const {
     shippingAddress,
-    paymentMethod,
     orderItems,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    isPaid,
-    paidAt,
-    isDelivered,
-    deliveredAt,
-  } = order;
+    total: itemsPrice,
+    time,
+    date,
+  } = order
+
+
+  const isPaid = false;
+  const isDelivered = false;
 
   function createOrder(data, actions) {
     return actions.order
       .create({
         purchase_units: [
           {
-            amount: { value: totalPrice },
+            amount: { value: itemsPrice },
           },
         ],
       })
@@ -181,12 +193,12 @@ function OrderScreen() {
             <div className="card  p-5">
               <h2 className="mb-2 text-lg">Shipping Address</h2>
               <div>
-                {shippingAddress.fullName}, {shippingAddress.address},{" "}
-                {shippingAddress.city}, {shippingAddress.postalCode},{" "}
-                {shippingAddress.country}
+                {shippingAddress.full_name}, {shippingAddress.street},{" "}
+                {shippingAddress.city}, {shippingAddress.pincode},{" "}
+                {shippingAddress.state}
               </div>
               {isDelivered ? (
-                <div className="alert-success">Delivered at {deliveredAt}</div>
+                <div className="alert-success">Delivered at value</div>
               ) : (
                 <div className="alert-error">Not delivered</div>
               )}
@@ -194,9 +206,9 @@ function OrderScreen() {
 
             <div className="card p-5">
               <h2 className="mb-2 text-lg">Payment Method</h2>
-              <div>{paymentMethod}</div>
+              <div>value</div>
               {isPaid ? (
-                <div className="alert-success">Paid at {paidAt}</div>
+                <div className="alert-success">Paid at value</div>
               ) : (
                 <div className="alert-error">Not paid</div>
               )}
@@ -217,7 +229,7 @@ function OrderScreen() {
                   {orderItems.map((item) => (
                     <tr key={item._id} className="border-b">
                       <td>
-                        <Link href={`/product/${item.slug}`}>
+                        <Link href={`/product/${item._id}`}>
                           <a className="flex items-center">
                             <Image
                               src={item.image}
@@ -254,19 +266,19 @@ function OrderScreen() {
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Tax</div>
-                    <div>${taxPrice}</div>
+                    <div>taxPrice</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Shipping</div>
-                    <div>${shippingPrice}</div>
+                    <div>ShippingPrice</div>
                   </div>
                 </li>
                 <li>
                   <div className="mb-2 flex justify-between">
                     <div>Total</div>
-                    <div>${totalPrice}</div>
+                    <div>totalPrice</div>
                   </div>
                 </li>
                 {!isPaid && (
@@ -286,7 +298,7 @@ function OrderScreen() {
                     {loadingPay && <div>Loading...</div>}
                   </li>
                 )}
-                {session.user.isAdmin && order.isPaid && !order.isDelivered && (
+                {session.user.isAdmin && isPaid && isDelivered && (
                   <li>
                     {loadingDeliver && <div>Loading...</div>}
                     <button

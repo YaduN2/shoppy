@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import Product from '../../models/Product';
+// import Product from '../../models/Product';
 import db from '../../utils/db';
 import { Store } from '../../utils/Store';
 
@@ -18,11 +18,11 @@ export default function ProductScreen(props) {
   }
 
   const addToCartHandler = async () => {
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (data.countInStock < quantity) {
+    if (data.stock < quantity) {
       return toast.error('Sorry. Product is out of stock');
     }
 
@@ -52,9 +52,9 @@ export default function ProductScreen(props) {
             </li>
             <li>Category: {product.category}</li>
             <li>Brand: {product.brand}</li>
-            <li>
+            {/* <li>
               {product.rating} of {product.numReviews} reviews
-            </li>
+            </li> */}
             <li>Description: {product.description}</li>
           </ul>
         </div>
@@ -66,7 +66,7 @@ export default function ProductScreen(props) {
             </div>
             <div className="mb-2 flex justify-between">
               <div>Status</div>
-              <div>{product.countInStock > 0 ? 'In stock' : 'Unavailable'}</div>
+              <div>{product.stock > 0 ? 'In stock' : 'Unavailable'}</div>
             </div>
             <button
               className="primary-button w-full"
@@ -83,14 +83,16 @@ export default function ProductScreen(props) {
 
 export async function getServerSideProps(context) {
   const { params } = context;
-  const { slug } = params;
+  const { id } = params;
 
-  await db.connect();
-  const product = await Product.findOne({ slug }).lean();
-  await db.disconnect();
+  // await db.connect();
+  // const product = await Product.findOne({ slug }).lean();
+  // await db.disconnect();
+  const result = await axios.post("http://localhost:8000/product/get-product.php", {_id: id})
+  const product = result.data.product;
   return {
     props: {
-      product: product ? db.convertDocToObj(product) : null,
+      product: product ? product : null,
     },
   };
 }

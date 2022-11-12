@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getSession } from 'next-auth/react';
 import Order from '../../../models/Order';
 import db from '../../../utils/db';
@@ -9,13 +10,31 @@ const handler = async (req, res) => {
   }
 
   const { user } = session;
-  await db.connect();
-  const newOrder = new Order({
-    ...req.body,
-    user: user._id,
-  });
+  // await db.connect();
+  // const newOrder = new Order({
+  //   ...req.body,
+  //   user: user._id,
+  // });
 
-  const order = await newOrder.save();
+  // const order = await newOrder.save();
+  const {orderItems, shippingAddress, itemsPrice } = req.body;
+  let orderList = [];
+  orderItems.map((orderItem) => {
+      const OrderListItem = {
+          product_id: orderItem._id,
+          quantity: orderItem.quantity,
+      }
+      orderList.push(OrderListItem);
+  });
+  // console.log(cartItems);
+  // console.log(orderItems);
+  const result = await axios.post("http://localhost:8000/order/add-order.php", {
+    orderList,
+    shippingAddress,
+    total: itemsPrice,
+    user_id: user._id
+  });
+  const order = result.data.order
   res.status(201).send(order);
 };
 export default handler;

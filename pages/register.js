@@ -29,17 +29,25 @@ export default function LoginScreen() {
 
   const submitHandler = async ({ name, email, password }) => {
     try {
+      
+
+      
+
       await axios.post("/api/auth/signup", {
         name,
         email,
         password,
       });
 
+      // console.log(val)
       const result = await signIn("credentials", {
         redirect: false,
-        email,
+        name,
         password,
       });
+
+
+    
       if (result.error) {
         toast.error(result.error);
       }
@@ -55,14 +63,14 @@ export default function LoginScreen() {
       >
         <h1 className="mb-4 text-xl">Create Account</h1>
         <div className="mb-4">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Username</label>
           <input
             type="text"
             className="w-full"
             id="name"
             autoFocus
             {...register("name", {
-              required: "Please enter name",
+              required: "Please enter username",
             })}
           />
           {errors.name && (

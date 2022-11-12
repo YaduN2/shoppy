@@ -82,23 +82,25 @@ export default function AdminOrderScreen() {
                 <tbody>
                   {orders.map((order) => (
                     <tr key={order._id} className="border-b">
-                      <td className="p-5">{order._id.substring(20, 24)}</td>
+                      <td className="p-5">{order._id}</td>
                       <td className="p-5">
-                        {order.user ? order.user.name : 'DELETED USER'}
+                        {order.username ? order.username : 'DELETED USER'}
                       </td>
                       <td className="p-5">
-                        {order.createdAt.substring(0, 10)}
+                        {order.date}
                       </td>
-                      <td className="p-5">${order.totalPrice}</td>
+                      <td className="p-5">${order.total}</td>
                       <td className="p-5">
-                        {order.isPaid
+                        {/* {order.isPaid
                           ? `${order.paidAt.substring(0, 10)}`
-                          : 'not paid'}
+                          : 'not paid'} */}
+                          {'not paid'}
                       </td>
                       <td className="p-5">
-                        {order.isDelivered
+                        {/* {order.isDelivered
                           ? `${order.deliveredAt.substring(0, 10)}`
-                          : 'not delivered'}
+                          : 'not delivered'} */}
+                          {'not delivered'}
                       </td>
                       <td className="p-5">
                         <Link href={`/order/${order._id}`} passHref>

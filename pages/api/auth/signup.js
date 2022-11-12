@@ -1,6 +1,5 @@
+import axios from "axios";
 import bcryptjs from "bcryptjs";
-import User from "../../../models/User";
-import db from "../../../utils/db";
 
 async function handler(req, res) {
   if (req.method !== "POST") {
@@ -21,31 +20,38 @@ async function handler(req, res) {
     return;
   }
 
-  await db.connect();
 
-  const existingUser = await User.findOne({ email: email });
 
-  if (existingUser) {
-    res.status(422).json({ message: "User exists already!" });
-    await db.disconnect();
-    return;
-  }
-
-  const newUser = new User({
-    name,
-    email,
-    password: bcryptjs.hashSync(password),
-    isAdmin: false,
+  const result = await axios.post("http://localhost:8000/user/get-user.php", {
+    username: name
   });
 
-  const user = await newUser.save();
+  // console.log(result.data.success);
 
-  await db.disconnect();
+
+  if (result.data.success) {
+
+    res.status(422).json({ message: "User exists already!" });
+
+    return;
+
+  }
+
+  const data = await axios.post("http://localhost:8000/user/add-user.php", {
+    username: name,
+    email: email,
+    hashed_password: bcryptjs.hashSync(password),
+    isAdmin: false
+  })
+
+  const user = data.data.user;
+  console.log(user);
+
 
   res.status(201).send({
     message: "Created user!",
     _id: user._id,
-    name: user.name,
+    name: user.username,
     email: user.email,
     isAdmin: user.isAdmin,
   });

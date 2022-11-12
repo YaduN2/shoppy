@@ -40,11 +40,7 @@ export default function PlaceOrderScreen() {
       const { data } = await axios.post('/api/orders', {
         orderItems: cartItems,
         shippingAddress,
-        paymentMethod,
         itemsPrice,
-        shippingPrice,
-        taxPrice,
-        totalPrice,
       });
       setLoading(false);
       dispatch({ type: 'CART_CLEAR_ITEMS' });
@@ -76,9 +72,9 @@ export default function PlaceOrderScreen() {
             <div className="card  p-5">
               <h2 className="mb-2 text-lg">Shipping Address</h2>
               <div>
-                {shippingAddress.fullName}, {shippingAddress.address},{' '}
-                {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-                {shippingAddress.country}
+                {shippingAddress.fullName}, {shippingAddress.street},{' '}
+                {shippingAddress.city}, {shippingAddress.pinCode},{' '}
+                {shippingAddress.state}
               </div>
               <div>
                 <Link href="/shipping">Edit</Link>
@@ -106,7 +102,7 @@ export default function PlaceOrderScreen() {
                   {cartItems.map((item) => (
                     <tr key={item._id} className="border-b">
                       <td>
-                        <Link href={`/product/${item.slug}`}>
+                        <Link href={`/product/${item._id}`}>
                           <a className="flex items-center">
                             <Image
                               src={item.image}

@@ -21,16 +21,16 @@ export default function ShippingScreen() {
 
   useEffect(() => {
     setValue('fullName', shippingAddress.fullName);
-    setValue('address', shippingAddress.address);
+    setValue('address', shippingAddress.street);
     setValue('city', shippingAddress.city);
-    setValue('postalCode', shippingAddress.postalCode);
-    setValue('country', shippingAddress.country);
+    setValue('postalCode', shippingAddress.pinCode);
+    setValue('country', shippingAddress.state);
   }, [setValue, shippingAddress]);
 
-  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
+  const submitHandler = ({ fullName, street, city, pinCode, state }) => {
     dispatch({
       type: 'SAVE_SHIPPING_ADDRESS',
-      payload: { fullName, address, city, postalCode, country },
+      payload: { fullName, street, city, pinCode, state },
     });
     Cookies.set(
       'cart',
@@ -38,10 +38,10 @@ export default function ShippingScreen() {
         ...cart,
         shippingAddress: {
           fullName,
-          address,
+          street,
           city,
-          postalCode,
-          country,
+          pinCode,
+          state,
         },
       })
     );
@@ -72,17 +72,17 @@ export default function ShippingScreen() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="street">Street</label>
           <input
             className="w-full"
-            id="address"
-            {...register('address', {
-              required: 'Please enter address',
-              minLength: { value: 3, message: 'Address is more than 2 chars' },
+            id="street"
+            {...register('street', {
+              required: 'Please enter street',
+              // minLength: { value: 3, message: 'Address is more than 2 chars' },
             })}
           />
-          {errors.address && (
-            <div className="text-red-500">{errors.address.message}</div>
+          {errors.street&& (
+            <div className="text-red-500">{errors.street.message}</div>
           )}
         </div>
         <div className="mb-4">
@@ -99,29 +99,29 @@ export default function ShippingScreen() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="postalCode">Postal Code</label>
+          <label htmlFor="pinCode">PIN Code</label>
           <input
             className="w-full"
-            id="postalCode"
-            {...register('postalCode', {
-              required: 'Please enter postal code',
+            id="pinCode"
+            {...register('pinCode', {
+              required: 'Please enter PIN code',
             })}
           />
-          {errors.postalCode && (
-            <div className="text-red-500 ">{errors.postalCode.message}</div>
+          {errors.pinCode && (
+            <div className="text-red-500 ">{errors.pinCode.message}</div>
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="country">Country</label>
+          <label htmlFor="state">State</label>
           <input
             className="w-full"
-            id="country"
-            {...register('country', {
-              required: 'Please enter country',
+            id="state"
+            {...register('state', {
+              required: 'Please enter state',
             })}
           />
-          {errors.country && (
-            <div className="text-red-500 ">{errors.country.message}</div>
+          {errors.state && (
+            <div className="text-red-500 ">{errors.state.message}</div>
           )}
         </div>
         <div className="mb-4 flex justify-between">

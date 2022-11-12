@@ -1,5 +1,6 @@
+import axios from 'axios';
 import { getSession } from 'next-auth/react';
-import Product from '../../../../models/Product';
+// import Product from '../../../../models/Product';
 import db from '../../../../utils/db';
 
 const handler = async (req, res) => {
@@ -17,28 +18,42 @@ const handler = async (req, res) => {
   }
 };
 const postHandler = async (req, res) => {
-  await db.connect();
-  const newProduct = new Product({
+  // await db.connect();
+  // const newProduct = new Product({
+  //   name: 'sample name',
+  //   // slug: 'sample-name-' + Math.random(),
+  //   image: '/images/shirt1.jpg',
+  //   price: 0,
+  //   category: 'sample category',
+  //   brand: 'sample brand',
+  //   stock: 0,
+  //   description: 'sample description',
+  //   // rating: 0,
+  //   // numReviews: 0,
+  // });
+
+  // const product = await newProduct.save();
+  // await db.disconnect();
+  const newProduct = {
     name: 'sample name',
-    slug: 'sample-name-' + Math.random(),
     image: '/images/shirt1.jpg',
     price: 0,
     category: 'sample category',
     brand: 'sample brand',
-    countInStock: 0,
+    stock: 0,
     description: 'sample description',
-    rating: 0,
-    numReviews: 0,
-  });
+  }
 
-  const product = await newProduct.save();
-  await db.disconnect();
+  const result = await axios.post("http://localhost:8000/product/add-product.php",newProduct);
+  const product = result.data.product;
   res.send({ message: 'Product created successfully', product });
 };
 const getHandler = async (req, res) => {
-  await db.connect();
-  const products = await Product.find({});
-  await db.disconnect();
+  // await db.connect();
+  // const products = await Product.find({});
+  // await db.disconnect();
+  const result = await axios.post("http://localhost:8000/product/get-all.php");
+  const products = result.data.products;
   res.send(products);
 };
 export default handler;

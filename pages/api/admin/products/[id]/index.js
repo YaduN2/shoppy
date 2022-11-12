@@ -1,5 +1,6 @@
+import axios from 'axios';
 import { getSession } from 'next-auth/react';
-import Product from '../../../../../models/Product';
+// import Product from '../../../../../models/Product';
 import db from '../../../../../utils/db';
 
 const handler = async (req, res) => {
@@ -20,40 +21,54 @@ const handler = async (req, res) => {
   }
 };
 const getHandler = async (req, res) => {
-  await db.connect();
-  const product = await Product.findById(req.query.id);
-  await db.disconnect();
+  // await db.connect();
+  // const product = await Product.findById(req.query.id);
+  // await db.disconnect();
+  const _id = req.query.id;
+  const result = await axios.post("http://localhost:8000/product/get-product.php", {_id});
+  const product = result.data.product;
   res.send(product);
 };
 const putHandler = async (req, res) => {
-  await db.connect();
-  const product = await Product.findById(req.query.id);
+  // await db.connect();
+  // const product = await Product.findById(req.query.id);
+  const _id = req.query.id;
+  const result = await axios.post("http://localhost:8000/product/get-product.php", {_id});
+  const product = result.data.product;
   if (product) {
     product.name = req.body.name;
-    product.slug = req.body.slug;
+    // product.slug = req.body.slug;
     product.price = req.body.price;
     product.category = req.body.category;
     product.image = req.body.image;
     product.brand = req.body.brand;
-    product.countInStock = req.body.countInStock;
+    product.stock = req.body.stock;
     product.description = req.body.description;
-    await product.save();
-    await db.disconnect();
+
+    const data = await axios.post("http://localhost:8000/product/update-product.php", product);
+    // await product.save();
+    // await db.disconnect();
     res.send({ message: 'Product updated successfully' });
   } else {
-    await db.disconnect();
+    // await db.disconnect();
     res.status(404).send({ message: 'Product not found' });
   }
 };
 const deleteHandler = async (req, res) => {
-  await db.connect();
-  const product = await Product.findById(req.query.id);
+  // await db.connect();
+  // const product = await Product.findById(req.query.id);
+  const _id = req.query.id;
+  const result = await axios.post("http://localhost:8000/product/get-product.php", {_id});
+  const product = result.data.product;
   if (product) {
-    await product.remove();
-    await db.disconnect();
+    // await product.remove();
+    await axios.post("http://localhost:8000/product/delete-product.php", {
+      _id
+    })
+    // await db.disconnect();
     res.send({ message: 'Product deleted successfully' });
   } else {
-    await db.disconnect();
+    // await db.disconnect();
     res.status(404).send({ message: 'Product not found' });
   }
 };

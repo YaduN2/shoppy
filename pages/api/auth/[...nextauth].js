@@ -1,15 +1,18 @@
-import bcryptjs from 'bcryptjs';
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '../../../models/User';
-import db from '../../../utils/db';
+import NextAuth from "next-auth";
+import User from "../../../models/User";
+import db from "../../../utils/db";
+import bcrypt from "bcryptjs";
+import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
+import { data } from "autoprefixer";
 
 export default NextAuth({
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
+
       if (user?._id) token._id = user._id;
       if (user?.isAdmin) token.isAdmin = user.isAdmin;
       return token;
@@ -23,21 +26,24 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        await db.connect();
-        const user = await User.findOne({
-          email: credentials.email,
+
+        const result = await axios.post("http://localhost:8000/user/get-user.php", {
+          username: credentials.name
         });
-        await db.disconnect();
-        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
+
+        const user = result.data.user;
+
+  
+        if (result.data.success && bcrypt.compareSync(credentials.password, user.password)) {
           return {
             _id: user._id,
-            name: user.name,
+            name: user.username,
             email: user.email,
-            image: 'f',
+            // image: "profile",
             isAdmin: user.isAdmin,
           };
         }
-        throw new Error('Invalid email or password');
+        throw new Error("invalid email or password");
       },
     }),
   ],

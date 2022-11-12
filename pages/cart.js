@@ -21,12 +21,30 @@ function CartScreen() {
   const updateCartHandler = async (item, qty) => {
     const quantity = Number(qty);
     const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.countInStock < quantity) {
+    if (data.stock < quantity) {
       return toast.error('Sorry. Product is out of stock');
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
     toast.success('Product updated in the cart');
   };
+
+  // let ops = []
+  // let i = 1;
+  // for(i = 1; i <= item.stock; i++) {
+  //   ops[i-1] = i
+  // }
+
+  const optionsMapper = (item) => {
+    let ops = []
+    let i = 1;
+    for(i = 1; i <= item.stock; i++) {
+      ops[i-1] = i
+    }
+    return ops.map((val) => {
+      return <option key = {val} value={val}>{val}</option>
+    })
+  }
+
   return (
     <Layout title="Shopping Cart">
       <h1 className="mb-4 text-xl">Shopping Cart</h1>
@@ -48,9 +66,9 @@ function CartScreen() {
               </thead>
               <tbody>
                 {cartItems.map((item) => (
-                  <tr key={item.slug} className="border-b">
+                  <tr key={item._id} className="border-b">
                     <td>
-                      <Link href={`/product/${item.slug}`}>
+                      <Link href={`/product/${item._id}`}>
                         <a className="flex items-center">
                           <Image
                             src={item.image}
@@ -64,17 +82,20 @@ function CartScreen() {
                       </Link>
                     </td>
                     <td className="p-5 text-right">
-                      <select
+                    <select
                         value={item.quantity}
                         onChange={(e) =>
                           updateCartHandler(item, e.target.value)
                         }
                       >
-                        {[...Array(item.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
+                        { optionsMapper(item)}
+                        {/* {[...Array(item.stock).keys()].map((x) => (
+                          <option key={x + 1}>
                             {x + 1}
                           </option>
-                        ))}
+                        ))} */}
+                        {/* <option>2</option>
+                        <option>3</option> */}
                       </select>
                     </td>
                     <td className="p-5 text-right">${item.price}</td>

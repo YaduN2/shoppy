@@ -32,18 +32,18 @@ export default function PaymentScreen() {
     router.push("/placeorder");
   };
   useEffect(() => {
-    if (!shippingAddress.address) {
+    if (!shippingAddress.street) {
       return router.push("/shipping");
     }
     setSelectedPaymentMethod(paymentMethod || "");
-  }, [paymentMethod, router, shippingAddress.address]);
+  }, [paymentMethod, router, shippingAddress.street]);
 
   return (
     <Layout title="Payment Method">
       <CheckoutWizard activeStep={2} />
       <form className="mx-auto max-w-screen-md" onSubmit={submitHandler}>
         <h1 className="mb-4 text-xl">Payment Method</h1>
-        {["CashOnDelivery"].map((payment) => (
+        {["Cash On Delivery"].map((payment) => (
           <div key={payment} className="mb-4">
             <input
               name="paymentMethod"
