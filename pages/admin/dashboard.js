@@ -1,6 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 // import { Bar } from "react-chartjs-2";
+import BarChart from "../../components/BarChart";
 
 import {
   Chart as ChartJS,
@@ -11,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Layout from "../../components/Layout";
 import { getError } from "../../utils/error";
 // import { Bar } from "react-chartjs-2";
@@ -65,6 +66,72 @@ function AdminDashboardScreen() {
 
     fetchData();
   }, []);
+
+    const [monthData, setmonthData] = useState({
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    datasets: [
+      {
+        label: "Sales",
+        data: [],
+      },
+    ],
+  });
+
+  const getMonthlyData = async () => {
+    const result = await axios.get("http://localhost:8000/utils/monthly-sales.php");
+    const monthlyData = result.data.monthlySales
+    console.log(monthlyData)
+    let month = [];
+    for(let i = 0; i< 12; i++) {
+      month[i] = 0;
+    }
+    monthlyData.map((monthObj) => {
+      month[monthObj.month-1] = monthObj.sales
+    })
+    
+    
+
+// 
+    setmonthData({
+      labels: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      datasets: [
+        {
+          label: "Sales",
+          data: month,
+        },
+      ],
+    })
+  }
+  useEffect(() => {
+    getMonthlyData();
+  }, [])
+
 
   // const data = {
   //   labels: summary.salesData.map((x) => x._id), // 2022/01 2022/03
@@ -135,6 +202,7 @@ function AdminDashboardScreen() {
                 }}
                 data={data}
               /> */}
+              <BarChart chartData={monthData}></BarChart>
             </div>
           )}
         </div>
