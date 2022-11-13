@@ -15,7 +15,7 @@ async function handler(req, res) {
   }
 
   const { user } = session;
-  const { email, password, fname, lname, mobile, city, state, pincode } = req.body;
+  const { password, fname, lname, mobile, city, state, pincode } = req.body;
 
   if (
     !email ||
@@ -43,7 +43,6 @@ async function handler(req, res) {
   const result = await axios.post("http://localhost:8000/user/update-user.php", {
     _id: user._id,
     isAdmin,
-    email, 
     hashed_password: bcryptjs.hashSync(password), 
     fname, 
     lname, 

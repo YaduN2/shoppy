@@ -41,7 +41,6 @@ export default function ProfileScreen() {
   const submitHandler = async ({ username, email, password, fname, lname, mobile, city, state, pincode }) => {
     try {
       await axios.put('/api/auth/update', {
-        email,
         password,
         fname,
         lname,
@@ -127,6 +126,7 @@ export default function ProfileScreen() {
             type="email"
             className="w-full"
             id="email"
+            disabled
             {...register('email', {
               required: 'Please enter email',
               pattern: {

@@ -34,9 +34,42 @@ export default function PlaceOrderScreen() {
 
   const [loading, setLoading] = useState(false);
 
-  const placeOrderHandler = async () => {
+  const getNewStock = async (product) => {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    console.log(data.stock)
+    return data.stock - product.quantity;
+  };
+
+  const updateStock = async (product, newStock) => {
     try {
-      setLoading(true);
+      console.log(newStock);
+      dispatch({ type: "UPDATE_REQUEST" });
+      await axios.put(`/api/admin/products/${product._id}`, {
+        ...product,
+        stock: newStock,
+      });
+      dispatch({ type: "UPDATE_SUCCESS" });
+      toast.success("Product updated successfully");
+    } catch (err) {
+      dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
+      toast.error(getError(err));
+    }
+  };
+
+  const placeOrderHandler = async () => {
+    setLoading(true);
+
+    try {
+        cartItems.map(async (product) => {
+        let newStock = await getNewStock(product);
+        if (newStock < 0) {
+          setLoading(false);
+          return toast.error("Sorry! Product Out of Stock.");
+        } else {
+          updateStock(product, newStock);
+        }
+      });
+
       const { data } = await axios.post("/api/orders", {
         orderItems: cartItems,
         shippingAddress,
