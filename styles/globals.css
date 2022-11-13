@@ -142,17 +142,21 @@ textarea {
 }
 
 .admin_yes {
-  border: solid black 2px;
+  /* border: solid black 2px;
   padding: 10px;
   border-radius: 50%;
-  background-color: rgb(47, 255, 50);
+  background-color: rgb(47, 255, 50); */
+  position: relative;
+  left: 20px;
 }
 
 .admin_no {
-  border: solid black 2px;
+  /* border: solid black 2px;
   padding: 10px;
   border-radius: 50%;
-  background-color: rgb(255, 63, 63);
+  background-color: rgb(255, 63, 63); */
+  position: relative;
+  left: 20px;
 }
 
 .one {

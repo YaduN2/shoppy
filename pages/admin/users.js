@@ -115,9 +115,13 @@ function AdminUsersScreen() {
                       <td className=" p-5 ">{user.email}</td>
                       <td className=" p-5 ">
                         {user.isAdmin ? (
-                          <span className="admin_yes">True</span>
+                          <span className="admin_yes">
+                            <img src="/images/tick.png" alt="" />
+                          </span>
                         ) : (
-                          <span className="admin_no">False</span>
+                          <span className="admin_no">
+                            <img src="/images/cross.png" alt="" />
+                          </span>
                         )}
                       </td>
                       <td className=" p-5 ">

@@ -120,6 +120,7 @@ function OrderScreen() {
   // } = order;
 
   const { shippingAddress, orderItems, total: itemsPrice } = order;
+  console.log(order);
   const isPaid = false;
   const isDelivered = false;
 
