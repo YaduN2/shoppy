@@ -12,6 +12,7 @@ import Image from "next/image";
 
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
+  // console.log(session);
 
   const siteName = "Shoppy";
   const alfndansf = (

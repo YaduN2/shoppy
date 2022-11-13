@@ -27,18 +27,24 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async ({ name, email, password }) => {
+  const submitHandler = async ({ username, fname, lname, email, password, mobile, city, state, pincode }) => {
     try {
       await axios.post("/api/auth/signup", {
-        name,
+        username,
+        fname,
+        lname,
         email,
         password,
+        mobile,
+        city,
+        state,
+        pincode
       });
 
       // console.log(val)
       const result = await signIn("credentials", {
         redirect: false,
-        name,
+        username,
         password,
       });
 
@@ -57,18 +63,33 @@ export default function LoginScreen() {
       >
         <h1 className="mb-4 text-2xl font-bold">Create Account</h1>
         <div className="mb-4">
-          <label htmlFor="name">First Name</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             className="w-full"
-            id="name"
+            id="username"
             autoFocus
-            {...register("name", {
+            {...register("username", {
+              required: "Please enter your username",
+            })}
+          />
+          {errors.username && (
+            <div className="text-red-500">{errors.username.message}</div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="fname">First Name</label>
+          <input
+            type="text"
+            className="w-full"
+            id="fname"
+            autoFocus
+            {...register("fname", {
               required: "Please enter your first name",
             })}
           />
-          {errors.name && (
-            <div className="text-red-500">{errors.name.message}</div>
+          {errors.fname && (
+            <div className="text-red-500">{errors.fname.message}</div>
           )}
         </div>
         <div className="mb-4">

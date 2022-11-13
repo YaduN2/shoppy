@@ -28,10 +28,11 @@ export default NextAuth({
       async authorize(credentials) {
 
         const result = await axios.post("http://localhost:8000/user/get-user.php", {
-          username: credentials.name
+          username: credentials.username
         });
 
         const user = result.data.user;
+        // console.log(user);
 
   
         if (result.data.success && bcrypt.compareSync(credentials.password, user.password)) {
@@ -41,9 +42,10 @@ export default NextAuth({
             email: user.email,
             // image: "profile",
             isAdmin: user.isAdmin,
+            // mobile: user.mobile
           };
         }
-        throw new Error("invalid email or password");
+        throw new Error("Invalid username or password");
       },
     }),
   ],

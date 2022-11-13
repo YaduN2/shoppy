@@ -66,17 +66,17 @@ function AdminDashboardScreen() {
     fetchData();
   }, []);
 
-  const data = {
-    labels: summary.salesData.map((x) => x._id), // 2022/01 2022/03
-    datasets: [
-      {
-        label: "Sales",
-        backgroundColor: "pink",
-        data: summary.salesData.map((x) => x.totalSales),
-      },
-    ],
-  };
-  console.log(data);
+  // const data = {
+  //   labels: summary.salesData.map((x) => x._id), // 2022/01 2022/03
+  //   datasets: [
+  //     {
+  //       label: "Sales",
+  //       backgroundColor: "pink",
+  //       data: summary.salesData.map((x) => x.totalSales),
+  //     },
+  //   ],
+  // };
+  // console.log(data);
   return (
     <Layout title="Admin Dashboard">
       <div className="grid  md:grid-cols-4 md:gap-5">

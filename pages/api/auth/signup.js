@@ -5,14 +5,20 @@ async function handler(req, res) {
   if (req.method !== "POST") {
     return;
   }
-  const { name, email, password } = req.body;
+  const { username, email, password, fname, lname, mobile, city, state, pincode } = req.body;
 
   if (
-    !name ||
+    !username ||
     !email ||
     !email.includes("@") ||
     !password ||
-    password.trim().length < 5
+    password.trim().length < 5 ||
+    !fname ||
+    !lname ||
+    !mobile ||
+    !city ||
+    !state ||
+    !pincode
   ) {
     res.status(422).json({
       message: "Validation error",
@@ -23,7 +29,7 @@ async function handler(req, res) {
 
 
   const result = await axios.post("http://localhost:8000/user/get-user.php", {
-    username: name
+    username: username
   });
 
   // console.log(result.data.success);
@@ -38,20 +44,20 @@ async function handler(req, res) {
   }
 
   const data = await axios.post("http://localhost:8000/user/add-user.php", {
-    username: name,
+    username: username,
     email: email,
     hashed_password: bcryptjs.hashSync(password),
     isAdmin: false
   })
 
   const user = data.data.user;
-  console.log(user);
+  // console.log(user);
 
 
   res.status(201).send({
     message: "Created user!",
     _id: user._id,
-    name: user.username,
+    username: user.username,
     email: user.email,
     isAdmin: user.isAdmin,
   });

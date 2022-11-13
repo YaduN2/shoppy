@@ -24,11 +24,11 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async ({ name, password }) => {
+  const submitHandler = async ({ username, password }) => {
     try {
       const result = await signIn("credentials", {
         redirect: false,
-        name,
+        username,
         password,
       });
       if (result.error) {
@@ -47,10 +47,10 @@ export default function LoginScreen() {
       >
         <h1 className="mb-4 text-xl">Login</h1>
         <div className="mb-4">
-          <label htmlFor="name">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
-            {...register("name", {
+            {...register("username", {
               required: "Please enter username",
               // pattern: {
               //   value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/i,
@@ -58,11 +58,11 @@ export default function LoginScreen() {
               // },
             })}
             className="w-full"
-            id="name"
+            id="username"
             autoFocus
           ></input>
-          {errors.name && (
-            <div className="text-red-500">{errors.name.message}</div>
+          {errors.username && (
+            <div className="text-red-500">{errors.username.message}</div>
           )}
         </div>
         <div className="mb-4">

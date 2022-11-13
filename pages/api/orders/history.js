@@ -16,6 +16,7 @@ const handler = async (req, res) => {
     user_id: user._id
   })
   const orders = result.data.orders
+  // console.log(orders)
   res.send(orders);
 };
 

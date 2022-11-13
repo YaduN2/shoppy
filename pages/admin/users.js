@@ -101,7 +101,7 @@ function AdminUsersScreen() {
                 <thead className="border-b">
                   <tr>
                     <th className="px-5 text-left">ID</th>
-                    <th className="p-5 text-left">NAME</th>
+                    <th className="p-5 text-left">USERNAME</th>
                     <th className="p-5 text-left">EMAIL</th>
                     <th className="p-5 text-left">ADMIN</th>
                     <th className="p-5 text-left">ACTIONS</th>
@@ -110,8 +110,8 @@ function AdminUsersScreen() {
                 <tbody>
                   {users.map((user) => (
                     <tr key={user._id} className="border-b">
-                      <td className=" p-5 ">{user._id.substring(20, 24)}</td>
-                      <td className=" p-5 ">{user.name}</td>
+                      <td className=" p-5 ">{user._id}</td>
+                      <td className=" p-5 ">{user.username}</td>
                       <td className=" p-5 ">{user.email}</td>
                       <td className=" p-5 ">
                         {user.isAdmin ? (
