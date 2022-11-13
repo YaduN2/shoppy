@@ -18,8 +18,6 @@ async function handler(req, res) {
   const { password, fname, lname, mobile, city, state, pincode } = req.body;
 
   if (
-    !email ||
-    !email.includes('@') ||
     !password ||
     (password && password.trim().length < 5) ||
     !fname ||

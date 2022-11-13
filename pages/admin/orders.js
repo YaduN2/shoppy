@@ -73,6 +73,7 @@ export default function AdminOrderScreen() {
                     <th className="px-5 text-left">ID</th>
                     <th className="p-5 text-left">USER</th>
                     <th className="p-5 text-left">DATE</th>
+                    <th className="p-5 text-left">TIME</th>
                     <th className="p-5 text-left">TOTAL</th>
                     <th className="p-5 text-left">PAID</th>
                     <th className="p-5 text-left">DELIVERED</th>
@@ -88,6 +89,9 @@ export default function AdminOrderScreen() {
                       </td>
                       <td className="p-5">
                         {order.date}
+                      </td>
+                      <td className="p-5">
+                        {order.time}
                       </td>
                       <td className="p-5">₹{order.total}</td>
                       <td className="p-5">

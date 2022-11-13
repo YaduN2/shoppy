@@ -73,7 +73,7 @@ export default function PlaceOrderScreen() {
       const { data } = await axios.post("/api/orders", {
         orderItems: cartItems,
         shippingAddress,
-        itemsPrice,
+        totalPrice,
       });
       setLoading(false);
       dispatch({ type: "CART_CLEAR_ITEMS" });

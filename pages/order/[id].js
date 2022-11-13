@@ -119,15 +119,21 @@ function OrderScreen() {
   //   deliveredAt,
   // } = order;
 
-  const { shippingAddress, orderItems, total: itemsPrice } = order;
-  console.log(order);
+  const { shippingAddress, orderItems, total } = order;
+  // console.log(order);
   const isPaid = false;
   const isDelivered = false;
 
+  let itemsPrice = 0;
+
+  orderItems?.map((item) => {
+    itemsPrice += (item.price)*(item.quantity)
+  })
+
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
   const price = round2(itemsPrice);
-  const shippingPrice = order.total > 200 ? 0 : 15;
-  const taxPrice = round2(order.total * 0.15);
+  const shippingPrice = price > 200 ? 0 : 15;
+  const taxPrice = round2(price * 0.15);
 
   const totalPrice = Math.round((price + shippingPrice + taxPrice) * 100) / 100;
 

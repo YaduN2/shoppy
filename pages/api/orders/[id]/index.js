@@ -16,7 +16,7 @@ const handler = async (req, res) => {
     _id
   })
   const order = result.data.order
-  console.log(order)
+  // console.log(order)
 
   // const order = await Order.findById(req.query.id);
   // await db.disconnect();

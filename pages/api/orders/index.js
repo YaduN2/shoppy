@@ -17,7 +17,7 @@ const handler = async (req, res) => {
   // });
 
   // const order = await newOrder.save();
-  const {orderItems, shippingAddress, itemsPrice } = req.body;
+  const {orderItems, shippingAddress, totalPrice } = req.body;
   let orderList = [];
   orderItems.map((orderItem) => {
       const OrderListItem = {
@@ -31,7 +31,7 @@ const handler = async (req, res) => {
   const result = await axios.post("http://localhost:8000/order/add-order.php", {
     orderList,
     shippingAddress,
-    total: itemsPrice,
+    total: totalPrice,
     user_id: user._id
   });
   const order = result.data.order
