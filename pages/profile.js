@@ -38,12 +38,17 @@ export default function ProfileScreen() {
 
   }, [session.user, setValue]);
 
-  const submitHandler = async ({ username, email, password }) => {
+  const submitHandler = async ({ username, email, password, fname, lname, mobile, city, state, pincode }) => {
     try {
       await axios.put('/api/auth/update', {
-        username,
         email,
         password,
+        fname,
+        lname,
+        mobile,
+        city,
+        state,
+        pincode
       });
       const result = await signIn('credentials', {
         redirect: false,
@@ -70,6 +75,7 @@ export default function ProfileScreen() {
         <div className="mb-4">
           <label htmlFor="username">Username</label>
           <input
+            disabled
             type="text"
             className="w-full"
             id="username"

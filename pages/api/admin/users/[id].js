@@ -1,6 +1,7 @@
 import User from '../../../../models/User';
 import db from '../../../../utils/db';
 import { getSession } from 'next-auth/react';
+import axios from 'axios';
 
 const handler = async (req, res) => {
   const session = await getSession({ req });
@@ -16,17 +17,21 @@ const handler = async (req, res) => {
 };
 
 const deleteHandler = async (req, res) => {
-  await db.connect();
-  const user = await User.findById(req.query.id);
+  // await db.connect();
+  // const user = await User.findById(req.query.id);
+  const result = await axios.post("http://localhost:8000/user/get-user-by-id.php" , {
+    _id: req.query.id
+  })
+  const user = result.data.user
   if (user) {
-    if (user.email === 'admin@example.com') {
+    if (user.isAdmin) {
       return res.status(400).send({ message: 'Can not delete admin' });
     }
-    await user.remove();
-    await db.disconnect();
+    const deleteResult = await axios.post("http://localhost:8000/user/delete-user.php", {
+      _id: req.query.id
+    })
     res.send({ message: 'User Deleted' });
   } else {
-    await db.disconnect();
     res.status(404).send({ message: 'User Not Found' });
   }
 };
