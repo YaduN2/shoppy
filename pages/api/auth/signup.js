@@ -47,7 +47,14 @@ async function handler(req, res) {
     username: username,
     email: email,
     hashed_password: bcryptjs.hashSync(password),
-    isAdmin: false
+    isAdmin: false,
+    fname,
+    lname,
+    mobile,
+    city,
+    state,
+    pincode
+
   })
 
   const user = data.data.user;
